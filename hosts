@@ -1,0 +1,59 @@
+[OSEv3:children]
+nodes
+nfs
+masters
+etcd
+
+[OSEv3:vars]
+openshift_master_cluster_public_hostname=None
+ansible_ssh_user=root
+openshift_master_cluster_hostname=None
+openshift_override_hostname_check=true
+openshift_enable_docker_excluder=False
+openshift_enable_openshift_excluder=False
+openshift_pkg_version=-3.11.59
+openshift_image_tag=v3.11.59
+openshift_release=3.11.59
+
+
+# Subscriptions
+openshift_deployment_type=openshift-enterprise
+oreg_url=registry.access.redhat.com/openshift3/ose-${component}:${version}
+
+#replace oreg_auth_user and oreg_auth_password as explained at https://docs.openshift.com/container-platform/3.11/install/configuring_inventory_file.htmlhttps://docs.openshift.com/container-platform/3.11/install/configuring_inventory_file.html
+#
+oreg_auth_user=<REPLACE>
+oreg_auth_password=<REPLACE>
+openshift_examples_modify_imagestreams=true
+
+os_firewall_use_firewalld=True
+openshift_master_api_port=8443
+openshift_master_console_port=8443
+
+# Passwords
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+#openshift_master_htpasswd_users={'scott': 'USE_HTPASSWORD_TO_GENERATE'}
+openshift_master_htpasswd_file=/root/file
+
+# Customizations
+openshift_disable_check=disk_availability,memory_availability,package_version,docker_image_availability
+openshift_use_crio=True
+openshift_crio_use_rpm=True
+openshift_use_crio_only=False
+openshift_crio_enable_docker_gc=True
+
+[OSEv3:vars]
+openshift_deployment_type=openshift-enterprise
+[masters]
+localhost
+
+[etcd]
+localhost
+
+[nodes]
+localhost  openshift_node_group_name='node-config-all-in-one'
+
+[nfs]
+localhost
+
+
